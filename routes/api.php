@@ -40,8 +40,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     //get usertype and then derive email
     Route::post('getUserEmail','EventController@getUserEmail');
 
-    Route::post('savePoll', 'EventController@createPoll');
+    //Route::post('savePoll', 'EventController@createPoll');
 
     //get all events that have created poll from event table
     Route::get('getPollEvents','EventController@getPollEvents');
+
+    //create post
+    //Route::post("postCreatePost",'BlogPostController@post');
+    Route::post("postCreatePost",[PostController::class,'post']);
+
+    //delete post
+    //Route::delete("delete",'BlogPostController@delete');
+    Route::delete("delete",[PostController::class,'delete']);
+
+    //to write a comment on post
+    //Route::post("writeComment",'CommentController@send');
+    Route::post("writeComment",[CommentController::class,'send']);
+
+    //delete comment
+    //Route::delete("delete",'CommentController@delete');
+    Route::delete("delete",[CommentController::class,'delete']);
 
