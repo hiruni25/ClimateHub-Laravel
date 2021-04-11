@@ -25,7 +25,7 @@ class User extends Authenticatable
         'user_type', 
         'profession',
         'institute',
-        'bio' 
+        'bio' //comment
         
     ];
 
