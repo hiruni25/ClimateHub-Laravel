@@ -95,10 +95,15 @@ class EventController extends Controller
     public function mail()
     {
         
-        
-        Mail::to('dilki@gmail.com')->send(new notifyUser());
+        $emails = User::select('email')
+            ->lists('email');
+
+        Mail::send('mail', $data_nomor, function ($m) use ($emails) {
+                $m->to($emails)->subject('Event created');
+        });
+        /*Mail::to('dilki@gmail.com')->send(new notifyUser());
         return response()->json(['message'=>
-        "Email sent successfully"]);
+        "Email sent successfully"]);*/
     }
     
     public function getPollEvents(){
