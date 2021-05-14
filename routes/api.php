@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +18,8 @@ Route::group([
     Route::post('registeruser', 'AuthController@register');
 
 });
+
+    Route::resource('projects', 'ProjectController');
 
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
