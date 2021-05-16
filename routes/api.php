@@ -20,6 +20,8 @@ Route::group([
 
 });
 
+    Route::resource('projects', 'ProjectController');
+
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
 

@@ -95,6 +95,7 @@ class EventController extends Controller
     public function mail()
     {
         
+        
         Mail::to('dilki@gmail.com')->send(new notifyUser());
         return response()->json(['message'=>
         "Email sent successfully"]);
