@@ -1,8 +1,10 @@
 <?php
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
+
 
 Route::group([
 
@@ -59,4 +61,34 @@ Route::group([
     //delete comment
     //Route::delete("delete",'CommentController@delete');
     Route::delete("delete",[CommentController::class,'delete']);
+
+    //Get all projects
+    Route::get('projects', 'ProjectController@getAllProjects');
+
+    //Get all Public projects which belongs to category Public
+    Route::get('publicProjects', 'ProjectController@getPublicProjects');
+
+    //Get all Private projects which belongs to category Public
+    Route::get('privateProjects', 'ProjectController@getPrivateProjects');
+
+    //Get all Public projects which belongs to category Toolbox
+    Route::get('publicToolbox', 'ProjectController@getPublicToolbox');
+
+    //Get all Private projects which belongs to category Toolbox
+    Route::get('privateToolbox', 'ProjectController@getPrivateToolbox');
+
+     //Get all Public projects which belongs to category Additives
+     Route::get('publicAdditives', 'ProjectController@getPublicAdditives');
+
+     //Get all Private projects which belongs to category Additives
+     Route::get('privateAdditives', 'ProjectController@getPrivateAdditives');
+
+      //Get 5 latest Public projects
+      Route::get('latestProjects', 'ProjectController@getLatestPublicProjects');
+
+
+     
+   
+   
+
 
