@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +18,25 @@ Route::group([
     Route::post('registeruser', 'AuthController@register');
 
 });
+
+
+    //get project by using id
+    Route::get('getProjectById/{id}', 'ProjectController@getProjectById');
+
+    //project list
+    Route::get('projects', 'ProjectController@getAllProjects');
+
+    //upload project details
+    //Route::post('uploadProject', 'ProjectController@uploadProject');
+    Route::post("uploadProject",[ProjectController::class,'uploadProject']);
+
+    //update project by using id
+    Route::put('updateProject/{id}', 'ProjectController@updateProject');
+
+    //delete project
+    Route::delete('deleteProject/{id}', 'ProjectController@deleteProject');
+
+
 
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
@@ -43,6 +63,8 @@ Route::group([
 
     //get all events that have created poll from event table
     Route::get('getPollEvents','EventController@getPollEvents');
+
+
 
     //create post
     //Route::post("postCreatePost",'BlogPostController@post');
