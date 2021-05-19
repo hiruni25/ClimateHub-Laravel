@@ -16,6 +16,8 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('registeruser', 'AuthController@register');
+    Route::post('sendPasswordLink', 'ChangePasswordController@sendEmail');
+    Route::post('resetPassword', 'ResetPasswordController@process');
 
 });
 
@@ -62,4 +64,35 @@ Route::group([
     //delete comment
     //Route::delete("delete",'CommentController@delete');
     Route::delete("delete",[CommentController::class,'delete']);
+
+    // Get all users
+    Route::get('users', 'EditDataController@getUsers');
+
+    //Get specific users
+    Route::get('users/{id}', 'EditDataController@getUsersById');
+
+    //Update Users
+    Route::put('updateUsers/{id}', 'EditDataController@updateUsers');
+
+    //Delete Users
+    Route::delete('deleteUsers/{id}', 'EditDataController@deleteUsers');
+
+
+
+     // Get all users
+     Route::get('getusers', 'EditDataController@displayUsers');
+
+     //Get specific users
+     Route::get('getusers/{id}', 'EditDataController@displayUsersById');
+
+     //Delete Users
+    Route::delete('clearUsers/{id}', 'EditDataController@clearUsers');
+
+    //add data
+    Route::post('addData','EditDataController@addUsers');
+
+    
+
+
+
 
