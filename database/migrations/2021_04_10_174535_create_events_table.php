@@ -24,7 +24,7 @@ class CreateEventsTable extends Migration
             $table->boolean('isPoll')->nullable();
             $table->string('partcipantType');//public user/private user
             $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('users');
+            $table->foreign('admin_id')->references('id')->on('users')->default(1);
             $table->timestamps();
         });
 

@@ -17,7 +17,7 @@ class CreateEventUsersTable extends Migration
            
             $table->primary(['event_id', 'user_id']);
             $table->unsignedBigInteger('event_id');
-            $table->foreign('event_id')->references('id')->on('events');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('isVote');

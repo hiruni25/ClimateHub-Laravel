@@ -11,6 +11,8 @@ use App\mail\notifyUser;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -22,24 +24,35 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $sdate=$request->get('sdate');
+        //$sdate=$request->get('sdate');
         $event=Event::create($request->all());
-    }
+        $userType=$request->get('partcipantType');
 
-    public function dateCheck(){
-        $isExist= Event::select("*")
-                ->where("sdate",$sdate)
-                ->doesntExist();
+        if($userType=='private'){
+            $email=User::select('email')
+            ->where('user_type','=','private')
+            ->pluck('email');
+        
+            \Mail::to($email)
+                
+                ->send(new \App\Mail\eventCreatedMail($event));
+        }
+}
 
-        if($isExist){
-            return response('isexist');
-        }
-        else{
-            return response('else');
-        }
-        return response()->json(['message'=>
-        "Event created successfully"]);
-    }
+    // public function dateCheck(){
+    //     $isExist= Event::select("*")
+    //             ->where("sdate",$sdate)
+    //             ->doesntExist();
+
+    //     if($isExist){
+    //         return response('isexist');
+    //     }
+    //     else{
+    //         return response('else');
+    //     }
+    //     return response()->json(['message'=>
+    //     "Event created successfully"]);
+    // }
 
     //get data by id
     public function getEventById($id)
@@ -49,6 +62,7 @@ class EventController extends Controller
         return response()->json(['message'=>'Event Not Found'],404); 
     }
         return response()->json($event::find($id),200);
+
     }
     
     //save updated data to database
@@ -75,49 +89,40 @@ class EventController extends Controller
         $event->delete();
         return response()->json(['message'=>
         "Event deleted successfully"]);
-        //return response()->json(null,204);
-        //echo "successfully deleted.";
-        //return redirect()->to('/viewEvent');
-
-        //return back;
+    
     }
 
     public function getAllEvents()
     {
-        $event = event::get()->toJson(JSON_PRETTY_PRINT);
+        $event = event::orderBy('created_at', 'desc')->get()->toJson(JSON_PRETTY_PRINT);
         return response($event, 200);
     }
 
-    /*public function getUserEmail(Request $req){
-        $userType=$req.u_type;
-        dd($userType);
-    }*/
-
-    public function mail()
-    {
-        
-        $emails = User::select('email')
-            ->lists('email');
-
-        Mail::send('mail', $data_nomor, function ($m) use ($emails) {
-                $m->to($emails)->subject('Event created');
-        });
-        /*Mail::to('dilki@gmail.com')->send(new notifyUser());
-        return response()->json(['message'=>
-        "Email sent successfully"]);*/
-    }
     
     public function getPollEvents(){
         $poll=DB::table('events')
                 ->where('isPoll','=','1')
+                ->orderBy('created_at', 'desc')
                 ->get()->toJson(JSON_PRETTY_PRINT);
         return response($poll,200);
     }    
 
-    public function getAllPoll()
-    {
-        $poll = EventUser::get()->toJson(JSON_PRETTY_PRINT);
-        return response($poll, 200);
+   
+    public function saveVote(Request $req){
+        //$user=Auth::user();
+        $user=$req->user;
+        $poll=EventUser::create($req->all());
+    
     }
-}
 
+    public function getVoteResult($event_id){
+    $no_of_votes = DB::table('event_users')
+             ->select(DB::raw('count(*) as no_of_votes, event_id'))
+             ->where('event_id', '=', $event_id)
+             ->groupBy('event_id')
+             ->get();
+    return response()->json($no_of_votes,200);
+    }
+
+
+}

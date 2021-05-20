@@ -19,6 +19,7 @@ Route::group([
 
 });
 
+/**************************************Event Controller functions************************************************ */
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
 
@@ -36,7 +37,7 @@ Route::group([
 
     //Email Route
     Route::get('sendMail', [EventController::class, 'mail'])->name('email');
-
+    
     //get usertype and then derive email
     Route::post('getUserEmail','EventController@getUserEmail');
 
@@ -44,6 +45,14 @@ Route::group([
 
     //get all events that have created poll from event table
     Route::get('getPollEvents','EventController@getPollEvents');
+
+    //save vote to the EventUser table
+    Route:: post('saveVote','EventController@saveVote');
+
+    //get vote result
+    Route::get('voteResult/{event_id}', 'EventController@getVoteResult');
+    
+    /************************************************************************************** */
 
     //create post
     //Route::post("postCreatePost",'BlogPostController@post');
@@ -60,4 +69,6 @@ Route::group([
     //delete comment
     //Route::delete("delete",'CommentController@delete');
     Route::delete("delete",[CommentController::class,'delete']);
+
+    
 

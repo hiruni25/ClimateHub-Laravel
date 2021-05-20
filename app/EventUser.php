@@ -10,4 +10,7 @@ class EventUser extends Model
         'event_id', 
         'user_id',
         'isVote'];
+    
+    protected $primaryKey = 'event_id';
+
 }
