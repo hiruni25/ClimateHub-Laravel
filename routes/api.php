@@ -17,8 +17,28 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('registeruser', 'AuthController@register');
+    Route::post('sendPasswordLink', 'ChangePasswordController@sendEmail');
+    Route::post('resetPassword', 'ResetPasswordController@process');
 
 });
+
+
+    //get project by using id
+    Route::get('getProjectById/{id}', 'ProjectController@getProjectById');
+
+    //project list
+    Route::get('projects', 'ProjectController@getAllProjects');
+
+    //upload project details
+    //Route::post('uploadProject', 'ProjectController@uploadProject');
+    Route::post("uploadProject",[ProjectController::class,'uploadProject']);
+
+    //update project by using id
+    Route::put('updateProject/{id}', 'ProjectController@updateProject');
+
+    //delete project
+    Route::delete('deleteProject/{id}', 'ProjectController@deleteProject');
+
 
     Route::resource('projects', 'ProjectController');
 
@@ -48,6 +68,8 @@ Route::group([
     //get all events that have created poll from event table
     Route::get('getPollEvents','EventController@getPollEvents');
 
+
+
     //create post
     //Route::post("postCreatePost",'BlogPostController@post');
     Route::post("postCreatePost",[PostController::class,'post']);
@@ -65,7 +87,7 @@ Route::group([
     Route::delete("delete",[CommentController::class,'delete']);
 
     //Get all projects
-    Route::get('projects', 'ProjectController@getAllProjects');
+    //Route::get('projects', 'ProjectController@getAllProjects');
 
     //Get all Public projects which belongs to category Public
     Route::get('publicProjects', 'ProjectController@getPublicProjects');
@@ -92,5 +114,34 @@ Route::group([
      
    
    
+    // Get all users
+    Route::get('users', 'EditDataController@getUsers');
+
+    //Get specific users
+    Route::get('users/{id}', 'EditDataController@getUsersById');
+
+    //Update Users
+    Route::put('updateUsers/{id}', 'EditDataController@updateUsers');
+
+    //Delete Users
+    Route::delete('deleteUsers/{id}', 'EditDataController@deleteUsers');
+
+
+
+     // Get all users
+     Route::get('getusers', 'EditDataController@displayUsers');
+
+     //Get specific users
+     Route::get('getusers/{id}', 'EditDataController@displayUsersById');
+
+     //Delete Users
+    Route::delete('clearUsers/{id}', 'EditDataController@clearUsers');
+
+    //add data
+    Route::post('addData','EditDataController@addUsers');
+
+    
+
+
 
 
