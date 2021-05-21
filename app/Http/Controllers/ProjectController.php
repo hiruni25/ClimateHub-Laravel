@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Project;
+
 
 class ProjectController extends Controller
 {
