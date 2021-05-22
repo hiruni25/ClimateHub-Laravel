@@ -16,10 +16,6 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('registeruser', 'AuthController@register');
-    
-
-});
-
     Route::post('sendPasswordLink', 'ChangePasswordController@sendEmail');
     Route::post('resetPassword', 'ResetPasswordController@process');
 
@@ -44,8 +40,6 @@ Route::group([
 
 
     Route::resource('projects', 'ProjectController');
-    
-/**************************************Event Controller functions************************************************ */
 
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
@@ -80,6 +74,7 @@ Route::group([
     Route::get('voteResult/{event_id}', 'EventController@getVoteResult');
     
     /************************************************************************************** */
+
 
     //create post
     //Route::post("postCreatePost",'BlogPostController@post');

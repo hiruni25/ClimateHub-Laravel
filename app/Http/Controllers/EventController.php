@@ -28,13 +28,27 @@ class EventController extends Controller
         $event=Event::create($request->all());
         $userType=$request->get('partcipantType');
 
-        if($userType=='private'){
+        if($userType=='USER'){
             $email=User::select('email')
-            ->where('user_type','=','private')
+            ->where('user_type','=','USER')
             ->pluck('email');
         
             \Mail::to($email)
-                
+                ->send(new \App\Mail\eventCreatedMail($event));
+        }
+        elseif($userType=='ADMIN'){
+            $email=User::select('email')
+            ->where('user_type','=','ADMIN')
+            ->pluck('email');
+        
+            \Mail::to($email)
+                ->send(new \App\Mail\eventCreatedMail($event));
+        }
+        elseif(){
+            $email=User::select('email')
+            ->pluck('email');
+        
+            \Mail::to($email)
                 ->send(new \App\Mail\eventCreatedMail($event));
         }
 }
