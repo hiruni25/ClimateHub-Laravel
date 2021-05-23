@@ -15,11 +15,11 @@ class CreateEventUsersTable extends Migration
     {
         Schema::create('event_users', function (Blueprint $table) {
            
-            $table->primary(['event_id', 'user_id']);
+            $table->primary(['event_id','email']);
             $table->unsignedBigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('email');
+            $table->foreign('email')->references('email')->on('users');
             $table->boolean('isVote');
             $table->timestamps();
         });

@@ -8,7 +8,7 @@ class EventUser extends Model
 {
     protected $fillable = [
         'event_id', 
-        'user_id',
+        'email',
         'isVote'];
     
     protected $primaryKey = 'event_id';

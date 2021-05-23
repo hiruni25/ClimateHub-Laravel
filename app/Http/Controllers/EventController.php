@@ -21,52 +21,25 @@ class EventController extends Controller
     private $userType;
 
     //send data to database
-
     public function store(Request $request)
     {
         //$sdate=$request->get('sdate');
         $event=Event::create($request->all());
-        $userType=$request->get('partcipantType');
+        // $userType=$request->get('partcipantType');
+        $this->sendEmail($event);
 
-        if($userType=='USER'){
-            $email=User::select('email')
-            ->where('user_type','=','USER')
-            ->pluck('email');
-        
-            \Mail::to($email)
-                ->send(new \App\Mail\eventCreatedMail($event));
-        }
-        elseif($userType=='ADMIN'){
-            $email=User::select('email')
-            ->where('user_type','=','ADMIN')
-            ->pluck('email');
-        
-            \Mail::to($email)
-                ->send(new \App\Mail\eventCreatedMail($event));
-        }
-        elseif(){
-            $email=User::select('email')
-            ->pluck('email');
-        
-            \Mail::to($email)
-                ->send(new \App\Mail\eventCreatedMail($event));
-        }
 }
 
-    // public function dateCheck(){
-    //     $isExist= Event::select("*")
-    //             ->where("sdate",$sdate)
-    //             ->doesntExist();
+//get email address of the user and send email notification
+public function sendEmail($event){
+        $email=User::select('email')
+        ->pluck('email');
+    
+        \Mail::to($email)
+            ->send(new \App\Mail\eventCreatedMail($event));
+    
+}
 
-    //     if($isExist){
-    //         return response('isexist');
-    //     }
-    //     else{
-    //         return response('else');
-    //     }
-    //     return response()->json(['message'=>
-    //     "Event created successfully"]);
-    // }
 
     //get data by id
     public function getEventById($id)
@@ -106,28 +79,33 @@ class EventController extends Controller
     
     }
 
+    //retrieve all events
     public function getAllEvents()
     {
         $event = event::orderBy('created_at', 'desc')->get()->toJson(JSON_PRETTY_PRINT);
         return response($event, 200);
-    }
+    } 
 
-    
-    public function getPollEvents(){
-        $poll=DB::table('events')
-                ->where('isPoll','=','1')
-                ->orderBy('created_at', 'desc')
-                ->get()->toJson(JSON_PRETTY_PRINT);
-        return response($poll,200);
-    }    
-
-   
+   //save vote in eventuser table
     public function saveVote(Request $req){
-        //$user=Auth::user();
-        $user=$req->user;
+        $event=$req->get('event_id');
+        $email=$req->get('email');
+        $participant=Event::select('partcipantType')
+            ->where('id','=','$event')
+            ->get();
+        
+        if (EventUser::where('email','=',$email)->exists()) {
+            return response()->json(['message'=>'It seems you have already voted or not logged in! '],500);
+
+        }
+        elseif ($participant=='REGISTERED USERS') {
+            $poll=EventUser::create($req->all());
+            return response($poll, 200);
+        }
         $poll=EventUser::create($req->all());
-    
-    }
+            return response($poll, 200);
+
+}
 
     public function getVoteResult($event_id){
     $no_of_votes = DB::table('event_users')

@@ -11,5 +11,6 @@
     <h3>Event name:{{$event['title']}}</h3>
     <p>Venue: {{$event['venue']}}</p>
     <p>From: {{$event['sdate']}} To: {{$event['edate']}}</p>
+    <p>For: {{$event['partcipantType']}}</p>
 </body>
 </html>
