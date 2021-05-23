@@ -27,11 +27,11 @@ Route::group([
     Route::get('getProjectById/{id}', 'ProjectController@getProjectById');
 
     //project list
-    Route::get('projects', 'ProjectController@getAllProjects');
+    Route::get('projectsList', 'ProjectController@getProjectsList');
 
     //upload project details
-    //Route::post('uploadProject', 'ProjectController@uploadProject');
-    Route::post("uploadProject",[ProjectController::class,'uploadProject']);
+    Route::post('uploadProject', 'ProjectController@uploadProject');
+    //Route::post("uploadProject",[ProjectController::class,'uploadProject']);
 
     //update project by using id
     Route::put('updateProject/{id}', 'ProjectController@updateProject');
@@ -41,6 +41,34 @@ Route::group([
 
 
     Route::resource('projects', 'ProjectController');
+
+    
+    //Get all projects
+    Route::get('projects', 'ProjectController@getAllProjects');
+
+    //Get all Public projects which belongs to category Public
+    Route::get('publicProjects', 'ProjectController@getPublicProjects');
+
+    //Get all Private projects which belongs to category Public
+    Route::get('privateProjects', 'ProjectController@getPrivateProjects');
+
+    //Get all Public projects which belongs to category Toolbox
+    Route::get('publicToolbox', 'ProjectController@getPublicToolbox');
+
+    //Get all Private projects which belongs to category Toolbox
+    Route::get('privateToolbox', 'ProjectController@getPrivateToolbox');
+
+     //Get all Public projects which belongs to category Additives
+     Route::get('publicAdditives', 'ProjectController@getPublicAdditives');
+
+     //Get all Private projects which belongs to category Additives
+     Route::get('privateAdditives', 'ProjectController@getPrivateAdditives');
+
+    //Get 5 latest Public projects
+    Route::get('latestProjects', 'ProjectController@getLatestPublicProjects');
+
+
+     
 
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
@@ -86,32 +114,6 @@ Route::group([
     //Route::delete("delete",'CommentController@delete');
     Route::delete("delete",[CommentController::class,'delete']);
 
-    //Get all projects
-    //Route::get('projects', 'ProjectController@getAllProjects');
-
-    //Get all Public projects which belongs to category Public
-    Route::get('publicProjects', 'ProjectController@getPublicProjects');
-
-    //Get all Private projects which belongs to category Public
-    Route::get('privateProjects', 'ProjectController@getPrivateProjects');
-
-    //Get all Public projects which belongs to category Toolbox
-    Route::get('publicToolbox', 'ProjectController@getPublicToolbox');
-
-    //Get all Private projects which belongs to category Toolbox
-    Route::get('privateToolbox', 'ProjectController@getPrivateToolbox');
-
-     //Get all Public projects which belongs to category Additives
-     Route::get('publicAdditives', 'ProjectController@getPublicAdditives');
-
-     //Get all Private projects which belongs to category Additives
-     Route::get('privateAdditives', 'ProjectController@getPrivateAdditives');
-
-      //Get 5 latest Public projects
-      Route::get('latestProjects', 'ProjectController@getLatestPublicProjects');
-
-
-     
    
    
     // Get all users

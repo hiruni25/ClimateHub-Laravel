@@ -27,7 +27,7 @@ class EventController extends Controller
 
     public function dateCheck(){
         $isExist= Event::select("*")
-                ->where("sdate",$sdate)
+                //->where("sdate",$sdate)
                 ->doesntExist();
 
         if($isExist){
@@ -96,7 +96,7 @@ class EventController extends Controller
     {
         
         
-        Mail::to('dilki@gmail.com')->send(new notifyUser());
+        //Mail::to('dilki@gmail.com')->send(new notifyUser());
         return response()->json(['message'=>
         "Email sent successfully"]);
     }

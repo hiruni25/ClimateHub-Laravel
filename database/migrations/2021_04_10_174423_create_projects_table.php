@@ -16,7 +16,7 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             //$table->integer('id');
-            $table->integer('version_id');
+            $table->integer('version_id')->default(1);
             //$table->unique(["id", "version_id"]);
             $table->string('project_title');
             $table->string('author');

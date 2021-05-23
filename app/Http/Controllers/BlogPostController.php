@@ -9,7 +9,7 @@ class BlogPostController extends Controller
     public function postCreatePost(Request $request)
     {
         //validation
-        $post=new Post();
+        $post=new BlogPost();
         $post->blog_title=$request['title'];
         $post->content=$request['body'];
         $post->image=$request['image'];
@@ -23,11 +23,11 @@ class BlogPostController extends Controller
     }
 
     function delete($id){
-        $post=Post::find($id);
+        $post=BlogPost::find($id);
         $result=$post->delete();
         if($result){
             return 'post deleted';
         }
-        
+
     }
 }
