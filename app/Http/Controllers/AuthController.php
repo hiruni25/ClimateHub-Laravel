@@ -29,11 +29,11 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        // if (! $token = auth()->attempt($credentials)) {
-        //     return response()->json(['error' => 'Email or password doesn\'t exist'], 401);
-        // }
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Email or password doesn\'t exist'], 401);
+        }
 
-        // return $this->respondWithToken($token);
+        return $this->respondWithToken($token);
     }
 
     public function register(RegisterRequest $request)
@@ -59,9 +59,9 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        // auth()->logout();
+        auth()->logout();
 
-        // return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     /**
@@ -71,7 +71,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        //return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth()->refresh());
     }
 
     /**
@@ -86,7 +86,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            //'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()->name
         ]);
     }

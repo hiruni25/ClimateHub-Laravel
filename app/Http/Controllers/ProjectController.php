@@ -12,75 +12,33 @@ class ProjectController extends Controller
     //Upload project
     public function uploadProject(Request $request)
     {
-
-
-
+        $project = new Project();
+        $project = $request->all();
         try {
-
-            if ($request->hasFile("project_file")){
-                    $file = $request->file('project_file');
-                    $name = 'public/' . time() . '.' . $file->getClientOriginalExtension();
-                    //$imageFileName = $request->file("img_file")->getClientOriginalName();
-                    $path = $file->storeAs('public/Projects/', $name);
-                    $request['project_file'] = $path;   
-            
+            $valid = true;
+            if(!isset($project['project_title'])) $valid = false;
+            else {
+                if(trim($project['project_title']) == "") $valid = false;
+            }
+            if(!isset($project['accessible'])) $valid = false;
+            else {
+                if(trim($project['accessible']) == "") $valid = false;
+                else {
+                    if(trim($project['accessible']) == "open") $project['accessible'] = 1;
+                    else $project['accessible'] = 0;
                 }
-
-            if ($request->hasFile("img_file")){
-                    $file = $request->file('img_file');
-                    $name = 'public/' . time() . '.' . $file->getClientOriginalExtension();
-                    // $imageFileName = $request->file("img_file")->getClientOriginalName();
-                    $path = $file->storeAs('public/Projects/', $name);
-                    $request['img_file'] = $path;
-                }
-
-            $project = Project::create($request->all());
-            return response($project, 201);
-
-            
-
-            //dd($request->all());
-            //$author = $request->input('authorabc');
-            
-            //if ($request->hasFile("project_file")){
-                //return response($author, 201);
-                //return response("File is there", 201);
-            //}
-           
-            //If the exception is thrown, this text will not be shown
-            //echo $author;
-                
-
-          }
-          
-          //catch exception
-          catch(Exception $e) {
-            echo 'Message: ' .$e;
-          }
-    //    $author = $request->input('author');
-    //    Log::info($author);
-
-//        if ($_FILES) {
-//            echo "working";
-//            exit();
-//        } else {
-//            echo "not working";
-//            exit();
-//        }
-
-        // $project = Project::create($request->all());
-        // return response("project", 201);
-
-        // $project = new Project;
-        //
-        // if($project->save())
-        // {
-        //     return ["status" => true, "message" => "Project Uploaded Successfully"];
-        // }else
-        // {
-        //     return ["status" => false, "message" => "Something Went Wrong"];
-        // }
-
+            }
+            if(!$valid) {
+                return response()->json(['message'=>'Not validated entity'],422);
+            } else {
+                $project['admin_id'] = 1; // set admin id
+                $project['version_id'] = 1; // first version
+                $project = Project::create($project);
+                return response()->json(['message'=>'Added new project successfully!'],200);
+            }
+        } catch(Exception $e) {
+            return response($e,500); // unknown exception
+        }
     }
 
     //Update project
@@ -102,7 +60,7 @@ class ProjectController extends Controller
             return response()->json(['message' => 'Project Not Found'], 404);
         }
         $project->delete();
-        return response()->json(null, 204);
+        return response()->json("Project Deleted Successfully!", 200);
     }
 
     //Get project by project id
@@ -194,4 +152,4 @@ class ProjectController extends Controller
         return response($project,200);
     }
 
-}   
+}
