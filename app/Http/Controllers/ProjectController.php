@@ -42,14 +42,31 @@ class ProjectController extends Controller
     }
 
     //Update project
-    public function updateProject(Request $request, $id)
+    public function updateProject(Request $request)
     {
-        $project = Project::find($id);
-        if (is_null($project)) {
-            return response()->json(['message' => 'Project Not Found'], 404);
+        $project = new Project();
+        $project = $request->all();
+
+        try {
+             $valid = true;
+
+             if(!isset($project['accessible'])) $valid = false;
+             else {
+                 $project['accessible'] = 1;
+             }
+
+             if(!$valid) {
+                  return response()->json(['message'=>'Not validated entity'],422);
+             } else {
+                  $project['admin_id'] = 1; // set admin id
+                  $project['version_id'] = $project['version_id'] + 1; // first version
+                  $project->update($project);
+                  return response()->json(['message'=>'Updated project successfully!'],200);
+             }
+
+        } catch(Exception $e) {
+            return response($e,500); // unknown exception
         }
-        $project->update($request->all());
-        return response($project, 200);
     }
 
     //Delete Project

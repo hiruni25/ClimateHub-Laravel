@@ -34,7 +34,7 @@ Route::group([
     //Route::post("uploadProject",[ProjectController::class,'uploadProject']);
 
     //update project by using id
-    Route::put('updateProject/{id}', 'ProjectController@updateProject');
+    Route::post('updateProject', 'ProjectController@updateProject');
 
     //delete project
     Route::delete('deleteProject/{id}', 'ProjectController@deleteProject');
@@ -42,7 +42,7 @@ Route::group([
 
     Route::resource('projects', 'ProjectController');
 
-    
+
     //Get all projects
     Route::get('projects', 'ProjectController@getAllProjects');
 
@@ -68,7 +68,7 @@ Route::group([
     Route::get('latestProjects', 'ProjectController@getLatestPublicProjects');
 
 
-     
+
 
     //get all events from event table
     Route::get('events', 'EventController@getAllEvents');
@@ -114,8 +114,8 @@ Route::group([
     //Route::delete("delete",'CommentController@delete');
     Route::delete("delete",[CommentController::class,'delete']);
 
-   
-   
+
+
     // Get all users
     Route::get('users', 'EditDataController@getUsers');
 
@@ -142,7 +142,7 @@ Route::group([
     //add data
     Route::post('addData','EditDataController@addUsers');
 
-    
+
 
 
 
